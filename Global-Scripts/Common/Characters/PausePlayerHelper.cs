@@ -50,6 +50,7 @@ namespace DaftAppleGames.Common.Characters
             {
                 _vCamera.FreezeCamera();
             }
+            Debug.Log("Pause Player");
             InvectorPlayerUtility.PausePlayer();
 #endif
 #endif
@@ -68,6 +69,7 @@ namespace DaftAppleGames.Common.Characters
             {
                 _vCamera.UnFreezeCamera();
             }
+            Debug.Log("Un-Pause Player");
             InvectorPlayerUtility.UnpausePlayer();
 #endif
 #endif

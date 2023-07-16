@@ -3,4 +3,7 @@
 # Ensure only "private" assets are part of the repo.
 # We do not want to publish purchased assets, other peoples work.
 
-/Global Assets/
+/Global-Assets/
+/Global-Assets-HDRP/
+/Global-Assets-BIRP/
+/Global-Assets-URP/

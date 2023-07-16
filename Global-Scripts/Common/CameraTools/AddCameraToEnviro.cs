@@ -1,3 +1,4 @@
+#if ENVIRO_3
 using Enviro;
 using UnityEngine;
 using Sirenix.OdinInspector;
@@ -17,3 +18,4 @@ namespace DaftAppleGames.Common.CameraTools
         }
     }
 }
+#endif

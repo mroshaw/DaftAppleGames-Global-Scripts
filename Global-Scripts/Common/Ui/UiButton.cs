@@ -1,4 +1,4 @@
-using Coffee.UIExtensions;
+// using Coffee.UIExtensions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -9,6 +9,21 @@ namespace DaftAppleGames.Common.UI
     /// </summary>
     public class UiButton : UiObject
     {
+        
+        /// <summary>
+        /// Lerp the "Shiny" UI effect if the button is selected
+        /// </summary>
+        public virtual void Update()
+        {
+            // Don't do anything if not selected
+            if (!isSelected)
+            {
+                return;
+            }
+        }
+
+        
+        /*
         [Header("UI Effect Settings")]
         public float shinyDuration = 1.0f;
         public float shinyFrequency = 2.0f;
@@ -69,5 +84,6 @@ namespace DaftAppleGames.Common.UI
             }
             base.OnDeselect(eventData);
         }
+        */
     }
 }

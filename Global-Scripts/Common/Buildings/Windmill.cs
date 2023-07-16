@@ -1,5 +1,7 @@
 using Sirenix.OdinInspector;
+#if THE_VEGETATION_ENGINE
 using TheVegetationEngine;
+#endif
 using UnityEngine;
 
 namespace DaftAppleGames.Common.Buildings
@@ -7,7 +9,6 @@ namespace DaftAppleGames.Common.Buildings
     /// <summary>
     /// Simple Windmill blade spinner Monobehaviour
     /// </summary>
-    [ExecuteInEditMode]
     public class Windmill : MonoBehaviour
     {
         [BoxGroup("General Settings")]
@@ -15,7 +16,6 @@ namespace DaftAppleGames.Common.Buildings
         [BoxGroup("Speed Settings")]
         public float rotateSpeed = 0.5f;
         public bool syncToTveWind = false;
-
         private bool _isTvePresent = false;
         
         /// <summary>
@@ -28,10 +28,12 @@ namespace DaftAppleGames.Common.Buildings
                 windMillBlades = this.gameObject;
             }
 
+#if THE_VEGETATION_ENGINE
             if (TVEManager.Instance != null)
             {
                 _isTvePresent = true;
             }
+#endif
         }
 
         /// <summary>
@@ -41,7 +43,9 @@ namespace DaftAppleGames.Common.Buildings
         {
             if (syncToTveWind && _isTvePresent)
             {
+#if THE_VEGETATION_ENGINE
                 windMillBlades.transform.Rotate(TVEManager.Instance.globalMotion.windPower, 0.0f, 0.0f, Space.Self);
+#endif
             }
             else
             {
