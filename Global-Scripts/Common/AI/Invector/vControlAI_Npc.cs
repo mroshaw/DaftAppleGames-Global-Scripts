@@ -58,6 +58,17 @@ namespace Invector.vCharacterController.AI
         public void GoToWork(vAIMovementSpeed speed = vAIMovementSpeed.Walking);
 
         /// <summary>
+        /// Tell the NPC to stop or pause movement
+        /// </summary>
+        public void StopMovement();
+
+        /// <summary>
+        /// Determines whether NPC is in a conversation
+        /// </summary>
+        /// <returns></returns>
+        public bool IsInConversation { get; set; }
+
+        /// <summary>
         /// Debug to force NPC to go home
         /// </summary>
         public bool goHome { get; set; }
@@ -162,6 +173,8 @@ namespace Invector.vCharacterController.AI
         private NpcWorkSpace _workSpace;
         private NpcHomeSpace _homeSpace;
 
+        private bool _isInConversation;
+        
         /*
         protected override void Start()
         {
@@ -221,6 +234,33 @@ namespace Invector.vCharacterController.AI
             }
         }
 
+        /// <summary>
+        /// Cause the NPC to stop moving, for example when entering into a conversation
+        /// with the player
+        /// </summary>
+        public void StopMovement()
+        {
+            navMeshAgent.isStopped = true;
+        }
+
+        /// <summary>
+        /// Cause the NPC to resume movement, for example once a conversation is complete
+        /// </summary>
+        public void ResumeMovement()
+        {
+            navMeshAgent.isStopped = false;
+        }
+
+        /// <summary>
+        /// Returns whether the NPC in a conversation
+        /// </summary>
+        /// <returns></returns>
+        public bool IsInConversation
+        {
+            get => _isInConversation;
+            set => _isInConversation = value;
+        }
+        
         /// <summary>
         /// Rotate the character to the rotation of the specified transform
         /// </summary>

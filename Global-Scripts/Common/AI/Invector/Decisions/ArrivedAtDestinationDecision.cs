@@ -1,24 +1,24 @@
-﻿using UnityEngine;
+﻿using Invector.vCharacterController.AI.FSMBehaviour;
 
-namespace Invector.vCharacterController.AI.FSMBehaviour
+namespace DaftAppleGames.Common.AI.Invector.Decisions
 {
 #if UNITY_EDITOR
     [vFSMHelpbox("Decide whether NPC has arrived at their destination", UnityEditor.MessageType.Info)]
 #endif
     public class ArrivedAtDestinationDecision : vStateDecision
     {
-		public override string categoryName
-        {
-            get { return "NPC/"; }
-        }
-
-        public override string defaultName
-        {
-            get { return "Arrived at destination"; }
-        }
+        /// <summary>
+        /// Return the Decision Category
+        /// </summary>
+		public override string categoryName => "NPC/";
 
         /// <summary>
-        /// Make the decision
+        /// Return the Decision name
+        /// </summary>
+        public override string defaultName => "Arrived at destination";
+
+        /// <summary>
+        /// Determine whether NPC has arrived at their destination
         /// </summary>
         /// <param name="fsmBehaviour"></param>
         /// <returns></returns>

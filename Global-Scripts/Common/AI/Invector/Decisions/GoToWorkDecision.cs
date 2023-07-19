@@ -1,27 +1,27 @@
-﻿using UnityEngine;
+﻿using Invector.vCharacterController.AI.FSMBehaviour;
 
-namespace Invector.vCharacterController.AI.FSMBehaviour
+namespace DaftAppleGames.Common.AI.Invector.Decisions
 {
 #if UNITY_EDITOR
     [vFSMHelpbox("Decide whether it's time for the NPC to go to work", UnityEditor.MessageType.Info)]
 #endif
     public class GoToWorkDecision : vStateDecision
     {
-		public override string categoryName
-        {
-            get { return "NPC/"; }
-        }
-
-        public override string defaultName
-        {
-            get { return "Time to go to work"; }
-        }
         /// <summary>
-        /// Make the decision
+        /// Return the Decision Category
+        /// </summary>
+		public override string categoryName => "NPC/";
+
+        /// <summary>
+        /// Return the Decision name
+        /// </summary>
+        public override string defaultName => "Time to go to work";
+
+        /// <summary>
+        /// Decide if it's time for the NPC to go to work
         /// </summary>
         /// <param name="fsmBehaviour"></param>
         /// <returns></returns>
-
         public override bool Decide(vIFSMBehaviourController fsmBehaviour)
         {
 #if ENVIRO_3

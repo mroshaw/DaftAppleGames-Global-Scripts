@@ -1,24 +1,30 @@
-﻿using UnityEngine;
+﻿using Invector.vCharacterController.AI.FSMBehaviour;
+#if HDRPTIMEOFDAY
+using ProceduralWorlds.HDRPTOD;
+#endif
+#if ENVIRO_3
 
-namespace Invector.vCharacterController.AI.FSMBehaviour
+#endif
+
+namespace DaftAppleGames.Common.AI.Invector.Decisions
 {
 #if UNITY_EDITOR
     [vFSMHelpbox("Decide whether it's time for the NPC to go to sleep or wake up", UnityEditor.MessageType.Info)]
 #endif
     public class SleepDecision : vStateDecision
     {
-		public override string categoryName
-        {
-            get { return "NPC/"; }
-        }
-
-        public override string defaultName
-        {
-            get { return "Time to sleep?"; }
-        }
+        /// <summary>
+        /// Return the Decision Category
+        /// </summary>
+		public override string categoryName => "NPC/";
 
         /// <summary>
-        /// Make the decision
+        /// Return the Decision name
+        /// </summary>
+        public override string defaultName => "Time to sleep?";
+
+        /// <summary>
+        /// Determine if it's time to sleep
         /// </summary>
         /// <param name="fsmBehaviour"></param>
         /// <returns></returns>
@@ -26,12 +32,17 @@ namespace Invector.vCharacterController.AI.FSMBehaviour
         {
             int sleepHour = fsmBehaviour.aiController.sleepHour;
             int wakeHour = fsmBehaviour.aiController.wakeHour;
-#if ENVIRO_3
+
+            // Enviro
+            #if ENVIRO_3
             int enviroHour = Enviro.EnviroManager.instance.Time.hours;
             return (enviroHour >= sleepHour || enviroHour <= wakeHour);
-#else
-            return false;
-#endif
+            #endif
+
+            // HDRP Time of Day
+            #if HDRPTIMEOFDAY
+            return true;
+            #endif
         }
     }
 }
