@@ -1,8 +1,8 @@
 #if PIXELCRUSHERS
 using System.Linq;
 using PixelCrushers.DialogueSystem;
+using Sirenix.OdinInspector;
 using UnityEngine;
-
 
 namespace DaftAppleGames
 {
@@ -11,9 +11,11 @@ namespace DaftAppleGames
     /// </summary>
     public class ProximityBark : BarkStarter
     {
-        [Header("Bark Targets")]
+        [BoxGroup("Bark Targets")]
         [Tooltip("Target to whom bark is addressed. Leave unassigned to just bark into the air.")]
         public Transform target;
+        [BoxGroup("Bark Targets")]
+        [Tooltip("Tags used to identify eligible colliders to initiate a bark.")]
         public string[] targetTags;
         
         /// <summary>

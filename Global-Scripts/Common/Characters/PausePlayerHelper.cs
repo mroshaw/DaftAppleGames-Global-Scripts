@@ -1,9 +1,9 @@
 using DaftAppleGames.Common.GameControllers;
 #if PIXELCRUSHERS
-#if INVECTOR_SHOOTER
 using PixelCrushers.InvectorSupport;
-using Invector.vCamera;
 #endif
+#if INVECTOR_SHOOTER
+using Invector.vCamera;
 #endif
 using UnityEngine;
 

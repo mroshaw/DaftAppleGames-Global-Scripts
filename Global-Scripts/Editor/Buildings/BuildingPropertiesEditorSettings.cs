@@ -29,10 +29,9 @@ namespace DaftAppleGames.Editor.Buildings
         [BoxGroup("Layer Settings")]
         public string[] layerExcludeSearchStrings;
         [BoxGroup("Static Flag Settings")]
-        public StaticEditorFlags staticFlags = StaticEditorFlags.BatchingStatic | StaticEditorFlags.NavigationStatic |
+        public StaticEditorFlags staticFlags = StaticEditorFlags.BatchingStatic | 
                                                StaticEditorFlags.OccludeeStatic | StaticEditorFlags.OccluderStatic |
-                                               StaticEditorFlags.ContributeGI | StaticEditorFlags.ReflectionProbeStatic |
-                                               StaticEditorFlags.OffMeshLinkGeneration;
+                                               StaticEditorFlags.ContributeGI | StaticEditorFlags.ReflectionProbeStatic;
         [BoxGroup("Static Flag Settings")]
         public string[] staticIgnoreSearchStrings;
 

@@ -205,8 +205,8 @@ namespace DaftAppleGames.Editor.Characters
             triggerSphereCollider.isTrigger = true;
             
             Debug.Log("Adding Event Listener...");
-            UnityEditor.Events.UnityEventTools.RemovePersistentListener<Collider>(stepTrigger.OnStepCollider, waterSplash.CheckWaterSplash);
-            UnityEditor.Events.UnityEventTools.AddPersistentListener(stepTrigger.OnStepCollider, waterSplash.CheckWaterSplash);
+            // UnityEditor.Events.UnityEventTools.RemovePersistentListener<Collider>(stepTrigger.OnStepCollider, waterSplash.CheckWaterSplash);
+            // UnityEditor.Events.UnityEventTools.AddPersistentListener(stepTrigger.OnStepCollider, waterSplash.CheckWaterSplash);
         }
 #endif
 

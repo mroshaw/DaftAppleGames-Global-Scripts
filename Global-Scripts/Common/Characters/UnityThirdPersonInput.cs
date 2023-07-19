@@ -426,8 +426,8 @@ namespace DaftAppleGames.Common.Characters
             
             if (!lockMoveInput)
             {
-                cc.input.x = value.Get<Vector2>().x;
-                cc.input.z = value.Get<Vector2>().y;
+                // cc.input.x = value.Get<Vector2>().x;
+                // cc.input.z = value.Get<Vector2>().y;
                 cc.ControlKeepDirection();
             }
         }

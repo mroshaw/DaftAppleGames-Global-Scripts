@@ -99,7 +99,7 @@ namespace DaftAppleGames.Editor.AutoEditor.Characters
             
             // Set up stamina and health
             controller.maxHealth = (int)_playerCharacterSettings.maxHealth;
-            controller.currentHealth = _playerCharacterSettings.startHealth;
+            // controller.currentHealth = _playerCharacterSettings.startHealth;
             controller.maxStamina = (int)_playerCharacterSettings.maxStamina;
             controller.healthRecovery = _playerCharacterSettings.healthRecovery;
             controller.healthRecoveryDelay = _playerCharacterSettings.healthRecoveryDelay;
