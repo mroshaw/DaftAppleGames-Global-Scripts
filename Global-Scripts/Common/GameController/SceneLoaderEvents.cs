@@ -25,7 +25,7 @@ namespace DaftApplesGames.Common.Controller
         /// <summary>
         /// Subscribe to events
         /// </summary>   
-        private void OnEnable()
+        private void Awake()
         {
             AdditiveSceneLoadManager.Instance.onAllScenesLoadedEvent.AddListener(CallOnAllScenesLoaded);
             AdditiveSceneLoadManager.Instance.onAllScenesActivatedEvent.AddListener(CallOnAllScenesActivated);
@@ -36,7 +36,7 @@ namespace DaftApplesGames.Common.Controller
         /// <summary>
         /// Unsubscribe from events
         /// </summary>   
-        private void OnDisable()
+        private void OnDestroy()
         {
             AdditiveSceneLoadManager.Instance.onAllScenesLoadedEvent.RemoveListener(CallOnAllScenesLoaded);
             AdditiveSceneLoadManager.Instance.onAllScenesActivatedEvent.RemoveListener(CallOnAllScenesActivated);

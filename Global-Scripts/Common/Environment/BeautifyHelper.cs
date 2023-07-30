@@ -1,5 +1,9 @@
 #if BEAUTIFY3
+#if HDPipeline
+using BeautifyHDRP;
+#else
 using BeautifyEffect;
+#endif
 using UnityEngine;
 
 namespace DaftAppleGames.Common.Environment 
@@ -7,8 +11,10 @@ namespace DaftAppleGames.Common.Environment
     public class BeautifyHelper : MonoBehaviour
     {
         [Header("Beautify Settings")]
+        #if HDPipeline
+        #else
         public BeautifyProfile[] profiles;
-        
+        #endif        
         private Beautify _beautify;
 
         private void Start()
@@ -22,7 +28,10 @@ namespace DaftAppleGames.Common.Environment
         /// <param name="profileIndex"></param>
         public void EnableProfile(int profileIndex)
         {
+#if HDPipeline
+#else
             _beautify.profile = profiles[profileIndex];
+#endif
         }
         
         // Public Instance for accessing the full API
@@ -35,7 +44,11 @@ namespace DaftAppleGames.Common.Environment
         {
             if (_beautify)
             {
+#if HDPipeline
+                
+#else
                 _beautify.enabled = true;
+#endif
             }
         }
 
@@ -46,7 +59,11 @@ namespace DaftAppleGames.Common.Environment
         {
             if (_beautify)
             {
+#if HDPipeline
+      
+#else
                 _beautify.enabled = false;
+#endif
             }
         }
 
