@@ -1,4 +1,5 @@
-﻿using Invector.vCharacterController.AI.FSMBehaviour;
+﻿#if INVECTOR_AI_TEMPLATE
+using Invector.vCharacterController.AI.FSMBehaviour;
 
 namespace DaftAppleGames.Common.AI.Invector.Decisions
 {
@@ -40,3 +41,4 @@ namespace DaftAppleGames.Common.AI.Invector.Decisions
         }
     }
 }
+#endif

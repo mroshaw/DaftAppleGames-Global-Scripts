@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿#if INVECTOR_AI_TEMPLATE
+using System.Collections;
 using DaftAppleGames.Common.AI;
 using DaftAppleGames.Common.AI.Invector.Actions;
 using Sirenix.OdinInspector;
@@ -362,3 +363,4 @@ namespace Invector.vCharacterController.AI
         }
     }
 }
+#endif

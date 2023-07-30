@@ -1,3 +1,4 @@
+#if INVECTOR_AI_TEMPLATE
 using Invector.vCharacterController.AI.FSMBehaviour;
 #if HDRPTIMEOFDAY
 using ProceduralWorlds.HDRPTOD;
@@ -41,7 +42,7 @@ namespace DaftAppleGames.Common.AI.Invector.Decisions
             }
             
             // HDRP Time of Day
-            #if HDRPTIMEOFDAY            
+#if HDRPTIMEOFDAY
             float time = HDRPTimeOfDay.Instance.TimeOfDay;
             if (endTime < startTime)
             {
@@ -51,13 +52,16 @@ namespace DaftAppleGames.Common.AI.Invector.Decisions
             {
                 return (time > startTime && time <= endTime) || (time > 0 && time < 5.99);
             }
-            #endif
+#endif
             
             // Enviro
-            #if ENVIRO_3
+#if ENVIRO_3
             
-            #endif
-            
+#endif
+
+            return false;
+
         }
     }
 }
+#endif

@@ -1,4 +1,5 @@
-﻿using Invector.vCharacterController.AI.FSMBehaviour;
+﻿#if INVECTOR_AI_TEMPLATE
+using Invector.vCharacterController.AI.FSMBehaviour;
 #if HDRPTIMEOFDAY
 using ProceduralWorlds.HDRPTOD;
 #endif
@@ -34,15 +35,16 @@ namespace DaftAppleGames.Common.AI.Invector.Decisions
             int wakeHour = fsmBehaviour.aiController.wakeHour;
 
             // Enviro
-            #if ENVIRO_3
+#if ENVIRO_3
             int enviroHour = Enviro.EnviroManager.instance.Time.hours;
             return (enviroHour >= sleepHour || enviroHour <= wakeHour);
-            #endif
+#endif
 
             // HDRP Time of Day
-            #if HDRPTIMEOFDAY
+#if HDRPTIMEOFDAY
             return true;
-            #endif
+#endif
         }
     }
 }
+#endif
