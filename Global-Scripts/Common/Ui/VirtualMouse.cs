@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 #if ASMDEF
 #if NEWINPUTSYSTEM
@@ -6,7 +5,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 #endif
 #endif
-using UnityEngine.UI;
 
 namespace DaftAppleGames.Common.UI
 {

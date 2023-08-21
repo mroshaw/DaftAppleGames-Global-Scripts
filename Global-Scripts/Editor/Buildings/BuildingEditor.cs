@@ -85,8 +85,10 @@ namespace DaftAppleGames.Editor.Buildings
         /// </summary>
         private void ApplyTerrain(EffectType effectType)
         {
+#if GENA_PRO
             BuildingTools.ApplyTerrain(building.gameObject, effectType, buildingSettings);
+#endif
         }
-        #endif
-    }
+#endif
+        }
 }

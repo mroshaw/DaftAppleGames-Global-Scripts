@@ -1,10 +1,8 @@
 using System;
 using System.Collections;
-using DaftAppleGames.Common.Settings;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace DaftAppleGames.Common.UI
 {
@@ -165,11 +163,11 @@ namespace DaftAppleGames.Common.UI
         private IEnumerator FadeAudioWithDelay(float startingVolume, float targetVolume, float fadeDuration, float fadeDelay)
         {
             // Wait for the delay period
-            yield return new WaitForSeconds(fadeDelay);
+            yield return new WaitForSecondsRealtime(fadeDelay);
             float currTime = 0.0f;
             while (currTime < fadeDuration)
             {
-                currTime += Time.deltaTime;
+                currTime += Time.unscaledDeltaTime;
                 float newVolume = Mathf.Lerp(startingVolume, targetVolume, currTime / fadeDuration);
                 audioMixer.SetFloat("MasterVolume", newVolume);
                 yield return null;
@@ -206,7 +204,7 @@ namespace DaftAppleGames.Common.UI
         {
             onFadeStartEvent.Invoke();
             // Wait for the delay period
-            yield return new WaitForSeconds(fadeDelay);
+            yield return new WaitForSecondsRealtime(fadeDelay);
 
             float timeElapsed = 0;
             float alphaValue;
@@ -215,7 +213,7 @@ namespace DaftAppleGames.Common.UI
             {
                 alphaValue = Mathf.Lerp(start, target, timeElapsed / fadeDuration);
                 fadeCanvasGroup.alpha = alphaValue;
-                timeElapsed += Time.deltaTime;
+                timeElapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
             fadeCanvasGroup.alpha = target;

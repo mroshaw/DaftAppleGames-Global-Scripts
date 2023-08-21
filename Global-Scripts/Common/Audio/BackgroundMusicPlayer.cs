@@ -1,33 +1,55 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 using Time = UnityEngine.Time;
 
 namespace DaftAppleGames.Common.Audio
 {
+    public enum BackgroundMusicType { Clip, Group }
+
     public class BackgroundMusicPlayer : MonoBehaviour
     {
         [BoxGroup("Music Clips")]
-        public AudioClip[] backgroundMusicClips;
-        
-        [BoxGroup("Play Settings")]
-        public int startWithClipNumber = 0;
+        public BackgroundMusicClip[] backgroundMusicClips;
+
         [BoxGroup("Play Settings")]
         public float fadeInTime = 2.0f;
 
         [BoxGroup("Start Settings")]
         public bool playOnStart = true;
         [BoxGroup("Start Settings")]
+        public string startGroup;
+        [BoxGroup("Start Settings")]
+        public string startClip;
+        [BoxGroup("Start Settings")]
         public float delayBeforeStart = 1.0f;
-        
-        [BoxGroup("Multi Clip Settings")]
-        public bool cycleAllClips = true;
-        [BoxGroup("Multi Clip Settings")]
+        [BoxGroup("Group Settings")]
         public float swapWhenSecondsLeft = 2.0f;
+
+        [FoldoutGroup("Events")]
+        public UnityEvent<string> ClipStartedEvent;
+        [FoldoutGroup("Events")]
+        public UnityEvent<string> ClipFinishedEvent;
+        [FoldoutGroup("Events")]
+        public UnityEvent<string> ClipGroupStartedEvent;
+        [FoldoutGroup("Events")]
+        public UnityEvent<string> ClipGroupFinishedEvent;
 
         [FoldoutGroup("Debug")]
         [SerializeField]
         private int _currentClip = 0;
+        [FoldoutGroup("Debug")]
+        [SerializeField]
+        private BackgroundMusicType _currentClipType;
+        [FoldoutGroup("Debug")]
+        [SerializeField]
+        private string _currentClipName;
+        [FoldoutGroup("Debug")]
+        [SerializeField]
+        public string _currentClipGroupName;
         [FoldoutGroup("Debug")]
         [SerializeField]
         private float _currentClipLength;
@@ -40,6 +62,8 @@ namespace DaftAppleGames.Common.Audio
         [FoldoutGroup("Debug")]
         [SerializeField]
         private bool _isPlaying;
+
+        private List<BackgroundMusicClip> _currentClipGroup;
 
         private int _totalClips;
 
@@ -67,10 +91,62 @@ namespace DaftAppleGames.Common.Audio
         private IEnumerator PlayAfterDelay(float delay)
         {
             yield return new WaitForSeconds(delay);
-            Debug.Log("Playing");
+            if (startClip != String.Empty)
+            {
+                PlayByName(startClip);
+                yield break;
+            }
+
+            if (startGroup != String.Empty)
+            {
+                PlayByGroup(startGroup);
+                yield break;
+            }
+        }
+
+        /// <summary>
+        /// Begin playing the specified clip
+        /// </summary>
+        /// <param name="clipName"></param>
+        /// <param name="endClipDelegate"></param>
+        public void PlayByName(string clipName)
+        {
+            _currentClipType = BackgroundMusicType.Clip;
+            _currentClipGroup = new List<BackgroundMusicClip>();
+            foreach (BackgroundMusicClip clip in backgroundMusicClips)
+            {
+                if (clip.ClipName == clipName)
+                {
+                    _currentClipGroup.Add(clip);
+                    break;
+                }
+            }
+            _currentClipName = clipName;
             Play();
         }
-        
+
+        /// <summary>
+        /// Play the specified group of audio clips
+        /// </summary>
+        /// <param name="groupName"></param>
+        /// <param name="endGroupDelegate"></param>
+        public void PlayByGroup(string groupName)
+        {
+            _currentClipType = BackgroundMusicType.Group;
+            _currentClipGroup = new List<BackgroundMusicClip>();
+
+            foreach (BackgroundMusicClip clip in backgroundMusicClips)
+            {
+                if (clip.GroupName == groupName)
+                {
+                    _currentClipGroup.Add(clip);
+                }
+            }
+            _currentClipGroupName = groupName;
+            ClipGroupStartedEvent.Invoke(groupName);
+            Play();
+        }
+
         /// <summary>
         /// Wait until clip is almost finished, fade out and fade in next
         /// </summary>
@@ -91,7 +167,7 @@ namespace DaftAppleGames.Common.Audio
                     nextClip = 0;
                 }
                 _currentClip = nextClip;
-                FadeOut(true);
+                FadeOut(_currentClipType == BackgroundMusicType.Group);
             }
         }
 
@@ -100,7 +176,8 @@ namespace DaftAppleGames.Common.Audio
         /// </summary>
         public void Play()
         {
-            _currentClip = startWithClipNumber;
+            _totalClips = _currentClipGroup.Count;
+            _currentClip = 0;
             FadeIn();
         }
 
@@ -122,9 +199,11 @@ namespace DaftAppleGames.Common.Audio
         {
             _audioSource.Stop();
             _audioSource.volume = 0;
-            _audioSource.clip = backgroundMusicClips[_currentClip];
+            _audioSource.clip = _currentClipGroup[_currentClip].AudioClip;
             _currentClipLength = _audioSource.clip.length;
             _audioSource.Play();
+            // ClipStartedEvent.Invoke(_currentClipGroup[_currentClip].ClipName);
+            // _currentClipGroup[_currentClip].ClipStartEvent.Invoke();
             _isPlaying = true;
 
             float time = 0.0f;
@@ -169,8 +248,21 @@ namespace DaftAppleGames.Common.Audio
                 yield return null;
             }
 
+            _currentClipGroup[_currentClip].ClipFinishEvent.Invoke();
+
+
+            if (_currentClipType == BackgroundMusicType.Clip)
+            {
+                // ClipFinishedEvent.Invoke(_currentClipName);
+            }
+
+            if (_currentClipType == BackgroundMusicType.Group)
+            {
+                // ClipGroupFinishedEvent.Invoke(_currentClipGroupName);
+            }
+
             // Fade in the new clip, if specified
-            if(playNext)
+            if(_currentClipType == BackgroundMusicType.Group && playNext)
             {
                 _currentClip++;
                 if(_currentClip == _totalClips)
@@ -184,6 +276,19 @@ namespace DaftAppleGames.Common.Audio
                 _isPlaying = false;
             }
             _inFade = false;
+        }
+
+        [Serializable]
+        public class BackgroundMusicClip
+        {
+            public string ClipName;
+            public string GroupName;
+            public bool Loop;
+            public AudioClip AudioClip;
+            [FoldoutGroup("Events")]
+            public UnityEvent ClipStartEvent;
+            [FoldoutGroup("Events")]
+            public UnityEvent ClipFinishEvent;
         }
     }
 }

@@ -1,6 +1,5 @@
 #if GENA_PRO
 using UnityEngine;
-using GeNa.Core;
 using UnityEditor;
 
 #if UNITY_EDITOR

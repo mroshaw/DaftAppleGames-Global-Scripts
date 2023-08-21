@@ -1,6 +1,4 @@
 // using Coffee.UIExtensions;
-using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace DaftAppleGames.Common.UI
 {

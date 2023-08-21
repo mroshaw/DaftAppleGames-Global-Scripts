@@ -1,8 +1,7 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace DaftAppleGames.Common.MainMenu 
+namespace DaftAppleGames.Common.MainMenu
 {
     public class GameCreditAssetTypeTemplate : MonoBehaviour
     {

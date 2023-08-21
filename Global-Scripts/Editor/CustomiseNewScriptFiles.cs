@@ -50,7 +50,7 @@ namespace DaftAppleGames.Editor
             DirectoryInfo di = new DirectoryInfo(path);
             
             _parentNamespace = di.Parent.Name;
-            _fullNamespace = path.Substring(path.IndexOf("Assets")).Substring(0, path.Substring(path.IndexOf("Assets")).LastIndexOf('/')).Replace('/', '.').Replace("Assets._Project.Scripts", RootNamespace);
+            _fullNamespace = path.Substring(path.IndexOf("Assets")).Substring(0, path.Substring(path.IndexOf("Assets")).LastIndexOf('/')).Replace('/', '.').Replace("Assets.Global-Scripts", RootNamespace);
             _scriptFriendlyName = Regex.Replace(fileName, @"((?<=\p{Ll})\p{Lu})|((?!\A)\p{Lu}(?>\p{Ll}))", " $0");
 
             int editorIndex = fileName.IndexOf("Editor");

@@ -1,25 +1,29 @@
 using UnityEngine;
-using System;
+using Sirenix.OdinInspector;
 
 namespace DaftAppleGames.Common.Characters
 {
     public class Character : MonoBehaviour
     {
-        [Header("Character Settings")]
+        [BoxGroup("Character Settings")]
         public string characterName;
 
-        [Header("Debug")]
+        [BoxGroup("Debug")]
         public bool enableDebug = false;
 
-        [Header("Audio FX")]
+        [BoxGroup("Audio FX")]
         public AudioSource audioSource;
+        [BoxGroup("Audio FX")]
         public AudioClip[] deathAudioClips;
+        [BoxGroup("Audio FX")]
         public AudioClip[] hitAudioClips;
 
         private int _hitClips;
         private int _deathClips;
         
-        // Start is called before the first frame update
+        /// <summary>
+        /// Initialise the animal
+        /// </summary>
         public virtual void Start()
         {
             if (!audioSource)
@@ -32,7 +36,7 @@ namespace DaftAppleGames.Common.Characters
         }
 
         /// <summary>
-        /// Hook into OnDeath
+        /// Play a random hit audio clip
         /// </summary>
         public void PlayHitAudio()
         {
@@ -42,7 +46,7 @@ namespace DaftAppleGames.Common.Characters
         }
 
         /// <summary>
-        /// Hook into OnHit
+        /// Play a random death audio clip
         /// </summary>
         public void PlayDeathAudio()
         {
@@ -54,7 +58,6 @@ namespace DaftAppleGames.Common.Characters
         // Update is called once per frame
         public virtual void Update()
         {
-
         }
     }
 }

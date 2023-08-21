@@ -29,6 +29,17 @@ mklink /J "%ASSETTARGET%\Global-Scripts\Editor" "E:\Dev\DAG\Global-Resources\Glo
 
 @echo Mapping Script Templates...
 mklink /J "%ASSETTARGET%\ScriptTemplates" "E:\Dev\DAG\Global-Resources\ScriptTemplates"
+
+if not exist "%ASSETTARGET%\Invector-FSMAIController\" goto invectortps
+@echo Mapping Invector FSM scripts...
+mklink /J "%ASSETTARGET%\Invector-FSMAIController\Scripts\AI\Custom" "E:\Dev\DAG\Global-Resources\Global-Scripts\Integrations\Invector\FSMAI"
+
+:invectortps
+
+if not exist "%ASSETTARGET%\Invector-3rdPersonController\" goto done
+@echo Mapping Invector Shooter scripts...
+mklink /J "%ASSETTARGET%\Invector-3rdPersonController\Shooter\Scripts\Custom" "E:\Dev\DAG\Global-Resources\Global-Scripts\Integrations\Invector\ThirdPersonShooter"
+
 goto done
 
 :foldernotexists

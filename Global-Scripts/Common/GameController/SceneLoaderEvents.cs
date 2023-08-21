@@ -25,7 +25,7 @@ namespace DaftApplesGames.Common.Controller
         /// <summary>
         /// Subscribe to events
         /// </summary>   
-        private void Awake()
+        private void Start()
         {
             AdditiveSceneLoadManager.Instance.onAllScenesLoadedEvent.AddListener(CallOnAllScenesLoaded);
             AdditiveSceneLoadManager.Instance.onAllScenesActivatedEvent.AddListener(CallOnAllScenesActivated);
@@ -57,6 +57,7 @@ namespace DaftApplesGames.Common.Controller
         /// </summary>
         private void CallOnAllScenesActivated()
         {
+            Debug.Log($"SceneLoaderEvents: Calling AllScenesActivated for {gameObject.scene.name}");
             onAllScenesActivatedEvent.Invoke();
         }
 
@@ -66,7 +67,7 @@ namespace DaftApplesGames.Common.Controller
         /// <param name="sceneName"></param>
         private void CallOnSceneLoaded(string sceneName)
         {
-            
+            onSceneLoadedEvent.Invoke(sceneName);
         }
 
         /// <summary>
@@ -75,7 +76,7 @@ namespace DaftApplesGames.Common.Controller
         /// <param name="sceneName"></param>
         private void CallOnSceneActivated(string sceneName)
         {
-            
+            onSceneActivatedEvent.Invoke(sceneName);
         }
     }
 }

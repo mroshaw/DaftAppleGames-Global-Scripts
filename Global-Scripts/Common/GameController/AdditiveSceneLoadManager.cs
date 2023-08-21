@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DaftAppleGames.Common.Ui;
 using DaftAppleGames.Common.UI;
 using Sirenix.OdinInspector;
 using TMPro;
@@ -49,11 +50,19 @@ namespace DaftAppleGames.Common.GameControllers
         [BoxGroup("General Settings")]
         public bool useLoadingScene = true;
         [BoxGroup("UI Settings")]
+        public bool showProgress = true;
+        [BoxGroup("UI Settings")]
+        public bool showRotatingLogo = true;
+        [BoxGroup("UI Settings")]
         public Canvas loadingUiCanvas;
+        [BoxGroup("UI Settings")]
+        public bool showLoadingScreen = true;
         [BoxGroup("UI Settings")]
         public Slider progressSlider;
         [BoxGroup("UI Settings")]
         public TMP_Text progressText;
+        [BoxGroup("UI Settings")]
+        public Image rotatingLogo;
 
         [FoldoutGroup("Event Settings")]
         public float eventDelay = 1.0f;
@@ -234,11 +243,18 @@ namespace DaftAppleGames.Common.GameControllers
             Debug.Log($"Total Additive Scenes:{additiveSceneSettings.additiveScenes.Count}");
             Debug.Log($"Total Scenes To Load:{_scenesToLoad.Count}");
 
+            rotatingLogo.gameObject.SetActive(showRotatingLogo);
+            if (showRotatingLogo)
+            {
+                rotatingLogo.GetComponent<SmoothSpinUiObject>().StartSpinning();
+            }
+            progressSlider.gameObject.SetActive(showProgress);
+
             // Set progress slider based on number of scenes actually loading
             progressSlider.maxValue = _scenesToLoad.Count;
             if (useLoadingScene)
             {
-                loadingUiCanvas.gameObject.SetActive(true);
+                loadingUiCanvas.gameObject.SetActive(showLoadingScreen);
             }
             _isLoading = true;
             Debug.Log("Main Scene Loaded...");

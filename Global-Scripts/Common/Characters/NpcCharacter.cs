@@ -1,6 +1,4 @@
-using UnityEngine;
-
-namespace DaftAppleGames.Common.Characters 
+namespace DaftAppleGames.Common.Characters
 {
     public class NpcCharacter : Character
     {

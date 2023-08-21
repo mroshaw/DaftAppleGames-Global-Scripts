@@ -1,5 +1,4 @@
 #if HDRPTIMEOFDAY
-using UnityEngine;
 
 namespace DaftAppleGames.Common.Weather
 {

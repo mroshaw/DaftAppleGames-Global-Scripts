@@ -26,10 +26,12 @@ namespace DaftAppleGames.Common.Quests
                 if (!isShown)
                 {
                     questJournal.ShowJournalUI();
+                    isShown = true;
                 }
                 else
                 {
                     questJournal.HideJournalUI();
+                    isShown = false;
                 }
             }
         }

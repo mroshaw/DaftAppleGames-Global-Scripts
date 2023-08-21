@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace DaftAppleGames.Common.Characters
 {
     public class Creature : Character

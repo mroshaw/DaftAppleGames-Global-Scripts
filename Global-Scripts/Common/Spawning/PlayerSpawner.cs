@@ -12,7 +12,6 @@ using PixelCrushers.Wrappers;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 namespace DaftAppleGames.Common.Spawning
 {

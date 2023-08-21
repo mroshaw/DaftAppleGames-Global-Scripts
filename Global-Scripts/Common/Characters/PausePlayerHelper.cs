@@ -1,78 +1,99 @@
-using DaftAppleGames.Common.GameControllers;
 #if PIXELCRUSHERS
-using PixelCrushers.InvectorSupport;
-#endif
 #if INVECTOR_SHOOTER
+using DaftAppleGames.Common.GameControllers;
+using MalbersAnimations.HAP;
+using PixelCrushers.InvectorSupport;
 using Invector.vCamera;
-#endif
+using Invector.vCharacterController;
+using MalbersAnimations;
 using UnityEngine;
 
-namespace DaftAppleGames.Common.Characters 
+namespace DaftAppleGames.Common.Characters
 {
     /// <summary>
     /// Helper component to call the PixelCrushers pause and unpause player functions
     /// </summary>
     public class PausePlayerHelper : MonoBehaviour
     {
-        #if INVECTOR_SHOOTER
-        private vThirdPersonCamera _vCamera;
-        #endif
-        /// <summary>
-        /// Init the component
-        /// </summary>
-        private void Start()
-        {
-            RefreshvCamera();
-        }
+
+        private bool _isPlayerPaused = false;
+        private bool _isHorsePaused = false;
+
+        private RigidbodyConstraints _playerConstraints;
 
         /// <summary>
-        /// Find the Invector Camera, if not found already
-        /// </summary>
-        private void RefreshvCamera()
-        {
-#if INVECTOR_SHOOTER
-            if (!_vCamera)
-            {
-                _vCamera = PlayerCameraManager.Instance.InvectorMainCamera;
-            }
-#endif
-        }
-        
-        /// <summary>
-        /// Pause Invector player
+        /// Pause Player
         /// </summary>
         public void PausePlayer()
         {
-#if PIXELCRUSHERS
-#if INVECTOR_SHOOTER
-            RefreshvCamera();
-            if (_vCamera)
-            {
-                _vCamera.FreezeCamera();
-            }
-            Debug.Log("Pause Player");
+            GameObject playerGameObject = PlayerCameraManager.Instance.PlayerGameObject;
+
+            PlayerCameraManager.Instance.InvectorMainCamera.FreezeCamera();
+            playerGameObject.GetComponent<vThirdPersonController>().StopCharacter();
+            _playerConstraints = playerGameObject.GetComponent<Rigidbody>().constraints;
+            playerGameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
             InvectorPlayerUtility.PausePlayer();
-#endif
-#endif
-           
+            PauseHorse();
+            _isPlayerPaused = true;
+            Debug.Log("Player Paused");
+
         }
 
         /// <summary>
-        /// Unpause Invector player
+        /// Unpause Player
         /// </summary>
         public void UnpausePlayer()
         {
-#if PIXELCRUSHERS
-#if INVECTOR_SHOOTER
-            RefreshvCamera();
-            if (_vCamera)
+            if (_isPlayerPaused)
             {
-                _vCamera.UnFreezeCamera();
+                GameObject playerGameObject = PlayerCameraManager.Instance.PlayerGameObject;
+
+                PlayerCameraManager.Instance.InvectorMainCamera.UnFreezeCamera();
+                playerGameObject.GetComponent<Rigidbody>().constraints = _playerConstraints;
+                InvectorPlayerUtility.UnpausePlayer();
+                UnpauseHorse();
+                _isPlayerPaused = false;
+                Debug.Log("Player Unpaused");
+
             }
-            Debug.Log("Un-Pause Player");
-            InvectorPlayerUtility.UnpausePlayer();
-#endif
-#endif
+        }
+
+        /// <summary>
+        /// If player is riding, pause horse
+        /// </summary>
+        public void PauseHorse()
+        {
+            MRider rider = PlayerCameraManager.Instance.PlayerGameObject.GetComponent<MRider>();
+
+            if (rider.IsRiding)
+            {
+                Mount mount = rider.Montura;
+                MalbersInput mInput = mount.GetComponentInParent<MalbersInput>();
+                mInput.enabled = false;
+                _isHorsePaused = true;
+                Debug.Log("Horse Paused");
+            }
+
+        }
+
+        /// <summary>
+        /// If player is riding, unpause horse
+        /// </summary>
+        public void UnpauseHorse()
+        {
+            if (_isHorsePaused)
+            {
+                MRider rider = PlayerCameraManager.Instance.PlayerGameObject.GetComponent<MRider>();
+
+                Mount mount = rider.Montura;
+                MalbersInput mInput = mount.GetComponentInParent<MalbersInput>();
+                mInput.enabled = true;
+                _isHorsePaused = false;
+                Debug.Log("Horse Unpaused");
+
+            }
         }
     }
 }
+#endif
+#endif

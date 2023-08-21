@@ -35,8 +35,9 @@ namespace DaftAppleGames.Common.Spawning
             // Set the Store Mount, to allow the player to call the horse straight away
             MRider horseRider = horseRiderGameObject.GetComponent<MRider>();
             horseRider.Set_StoredMount(horseGameObject);
+            horseRider.CanCallAnimal = true;
             // horseRider.Montura = _horseSpawnObject.GetComponentInChildren<Mount>();
-            
+
             // Tell the horse what spawned it
             Horse horse = horseGameObject.GetComponent<Horse>();
             horse.spawner = this;

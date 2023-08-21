@@ -2,10 +2,9 @@ using DaftAppleGames.Common.Ui;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace DaftAppleGames.Common.MainMenu 
+namespace DaftAppleGames.Common.MainMenu
 {
     /// <summary>
     /// Credits scroller

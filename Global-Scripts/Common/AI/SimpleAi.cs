@@ -5,57 +5,63 @@ namespace DaftAppleGames.Common.AI
 {
     public class SimpleAi : MonoBehaviour
     {
-        // Public serializable properties
-        [FoldoutGroup("General Settings")]
-        public string setting1;
-        
-        [FoldoutGroup("Simple Ai")]
-        public string setting2;
-        [FoldoutGroup("Simple Ai")]
-        public string setting3;
-        
-        // Public properties
-        public string Property1
-        {
-            get { return _privateField; }
-            set { _privateField = value; }
-        }
-        
-        // Private fields
-        private string _privateField;
+        [BoxGroup("Actions")]
+        [SerializeField]
+        private AiAction[] _actions;
 
-        #region UNITY_EVENTS
-        /// <summary>
-        /// Subscribe to events
-        /// </summary>   
-        private void OnEnable()
-        {
-            
-        }
-        
-        /// <summary>
-        /// Unsubscribe from events
-        /// </summary>   
-        private void OnDisable()
-        {
-            
-        }
+        [BoxGroup("Debug")]
+        [SerializeField]
+        private AiAction _currentAction;
+
+        [BoxGroup("Debug")]
+        [SerializeField]
+        private AiAction _nextAction;
+
+        [BoxGroup("Debug")]
+        [SerializeField]
+        private AiAction _previousAction;
 
         /// <summary>
-        /// Configure the component on awake
-        /// </summary>   
-        private void Awake()
-        {
-            
-        }
-    
-        /// <summary>
-        /// Configure the component on start
+        /// Initialise the AI
         /// </summary>
-        private void Start()
+        public void Start()
         {
-            
+            RefreshActions();
+            _currentAction = PickNextAction();
         }
-        #endregion
+
+        /// <summary>
+        /// Refresh the available actions
+        /// </summary>
+        private void RefreshActions()
+        {
+            _actions = GetComponents<AiAction>();
+        }
+
+        /// <summary>
+        /// Pick the next action to perform
+        /// </summary>
+        /// <returns></returns>
+        private AiAction PickNextAction()
+        {
+            return _actions[0];
+        }
+
+        /// <summary>
+        /// Perform the current action
+        /// </summary>
+        private void DoCurrentAction()
+        {
+            _currentAction.DoAction();
+        }
+
+        /// <summary>
+        /// Update the state and perform the action
+        /// every frame
+        /// </summary>
+        private void Update()
+        {
+            DoCurrentAction();
+        }
     }
 }

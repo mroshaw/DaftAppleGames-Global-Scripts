@@ -1,8 +1,9 @@
-using DaftAppleGames.Common.Characters;
+using DaftAppleGames.Common.Characters.Animals;
 using UnityEditor;
 using UnityEngine;
 
-namespace DaftAppleGames.Editor.Characters
+namespace DaftAppleGames.Editor.Characters.Animals
+
 {
     [CustomEditor(typeof(Animal))]
     public class AnimalEditor : CharacterEditor
@@ -16,10 +17,6 @@ namespace DaftAppleGames.Editor.Characters
         {
             base.OnInspectorGUI();
             _animal = target as Animal;
-            if (GUILayout.Button("Animal Button"))
-            {
-                
-            }
         }
     }
 }

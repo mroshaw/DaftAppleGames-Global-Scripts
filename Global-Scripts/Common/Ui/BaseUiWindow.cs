@@ -1,9 +1,8 @@
-using System;
-using DaftAppleGames.Common.Characters;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using DaftAppleGames.Common.Characters;
 
 namespace DaftAppleGames.Common.Ui
 {
@@ -24,9 +23,11 @@ namespace DaftAppleGames.Common.Ui
         public UnityEvent onUiShowEvent;
         [FoldoutGroup("Hide Events")]
         public UnityEvent onUiHideEvent;
-        
+
+#if INVECTOR_SHOOTER
         private PausePlayerHelper _pausePlayer;
         
+#endif
         /// <summary>
         /// Un-Register from the Ui controller
         /// </summary>
@@ -51,7 +52,9 @@ namespace DaftAppleGames.Common.Ui
 
             // Start with UI in specified state
             SetUiState(startWithUiOpen);
+#if INVECTOR_SHOOTER
             _pausePlayer = GetComponent<PausePlayerHelper>();
+#endif
         }
 
         /// <summary>
@@ -59,12 +62,13 @@ namespace DaftAppleGames.Common.Ui
         /// </summary>
         public virtual void ShowUi()
         {
+#if INVECTOR_SHOOTER
             // If PausePlayer component is present, use it.
             if (_pausePlayer)
             {
                 _pausePlayer.PausePlayer();
             }
-
+#endif
             // Enable the UI panel and set Event content
             uiPanel.SetActive(true);
             isUiOpen = true;
@@ -80,12 +84,13 @@ namespace DaftAppleGames.Common.Ui
         /// </summary>
         public virtual void HideUi()
         {
+#if INVECTOR_SHOOTER
             // If PausePlayer component is present, use it.
             if (_pausePlayer)
             {
                 _pausePlayer.UnpausePlayer();
             }
-            
+#endif
             // Disable the UI panel
             uiPanel.SetActive(false);
             isUiOpen = false;

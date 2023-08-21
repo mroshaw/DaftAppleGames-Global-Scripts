@@ -1,8 +1,10 @@
 #if PIXELCRUSHERS
 using System.Collections;
-using PixelCrushers.QuestMachine.Wrappers;
+using PixelCrushers.QuestMachine;
 using UnityEngine;
 using UnityEngine.Events;
+using Quest = PixelCrushers.QuestMachine.Wrappers.Quest;
+using QuestJournal = PixelCrushers.QuestMachine.Wrappers.QuestJournal;
 
 namespace DaftAppleGames.Common.Quests 
 {
@@ -42,6 +44,7 @@ namespace DaftAppleGames.Common.Quests
         {
             yield return new WaitForSeconds(startDelay);
             questJournal.AddQuest(quest);
+            quest.SetState(QuestState.Active);
 
             if (showDialog)
             {

@@ -3,7 +3,6 @@ using Invector.vCamera;
 #endif
 
 using DaftAppleGames.Common.CameraTools;
-using DaftAppleGames.Common.MainMenu;
 using UnityEngine;
 using UnityEngine.Events;
 

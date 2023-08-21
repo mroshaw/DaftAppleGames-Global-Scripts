@@ -227,8 +227,8 @@ namespace DaftAppleGames.Common.Settings
             }
             else
             {
-                Debug.Log($"Quality Setting not found! {QualityPresetName}. Resetting to {qualityNames[0]}");
-                QualityPresetName = qualityNames[0];
+                Debug.Log($"Quality Setting not found! {QualityPresetName}. Resetting to {defaultQualityPresetName}");
+                QualityPresetName = defaultQualityPresetName;
                 ApplyQualityPresets();
             }
             
