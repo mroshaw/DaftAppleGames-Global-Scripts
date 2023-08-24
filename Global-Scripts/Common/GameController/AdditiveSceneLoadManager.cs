@@ -64,9 +64,12 @@ namespace DaftAppleGames.Common.GameControllers
         [BoxGroup("UI Settings")]
         public Image rotatingLogo;
 
-        [FoldoutGroup("Event Settings")]
+        [BoxGroup("Editor Settings")]
+        public bool loadScenesOnLoad;
+
+        [BoxGroup("Event Settings")]
         public float eventDelay = 1.0f;
-        [FoldoutGroup("Event Settings")]
+        [BoxGroup("Event Settings")]
         public float deathDelay = 1.0f;
 
         // public UnityEvent onSceneLoadedEvent;
@@ -86,13 +89,13 @@ namespace DaftAppleGames.Common.GameControllers
         public UnityEvent onFixedScenePostLoadEvent;
         [FoldoutGroup("This Scene Events")]
         public UnityEvent onThisSceneLoadedEvent;
-        [FoldoutGroup("Editor Settings")]
-        public bool loadScenesOnLoad;
 
-        [FoldoutGroup("Scenes")]
+
+        [BoxGroup("Scenes")]
         [InlineEditor()]
         [SerializeField]
         public AdditiveSceneLoaderSettings additiveSceneSettings;
+
         private List<AdditiveScene> _scenesToLoad;
 
         private bool _isLoading = false;

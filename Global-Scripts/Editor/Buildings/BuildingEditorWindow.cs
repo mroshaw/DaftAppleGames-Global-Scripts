@@ -181,7 +181,7 @@ namespace DaftAppleGames.Editor.Buildings
             ApplyChanges(lightingSettings, UpdateLighting);
         }
         
-        
+         
         /// <summary>
         /// Execute everything in the correct order
         /// </summary>
@@ -189,7 +189,13 @@ namespace DaftAppleGames.Editor.Buildings
         {
 
         }
-        
+
+        [Button("Find Meshes Light Layer")]
+        private void FindMeshesWithLightLayer()
+        {
+            BuildingTools.FindMeshLightLayers(Selection.activeGameObject);
+        }
+
         /// <summary>
         /// Apply changes, given settings and a delegate action method
         /// </summary>
@@ -389,19 +395,34 @@ namespace DaftAppleGames.Editor.Buildings
             Debug.Log($"Update Meshes - Processing...");
             BuildingMeshEditorSettings meshSettings = settings as BuildingMeshEditorSettings;
             // Update Interior Meshes
-            MeshRenderer[] interiorMeshes = MeshTools.FindMeshRenderersInGameObjects(gameObjects, true,
-                meshSettings.interior.searchCriteria);
+            // MeshRenderer[] interiorMeshes = MeshTools.FindMeshRenderersInGameObjects(gameObjects, true,
+            //    meshSettings.interior.searchCriteria);
+
+            MeshRenderer[] interiorMeshes =
+                MeshTools.FindMeshRenderersInBuildingGameObjects(gameObjects, BuildingLayer.Interior);
             MeshTools.UpdateMeshProperties(interiorMeshes, meshSettings.interior);
 
             // Update Exterior meshes
-            MeshRenderer[] exteriorMeshes = MeshTools.FindMeshRenderersInGameObjects(gameObjects, true,
-                meshSettings.exterior.searchCriteria);
+            // MeshRenderer[] exteriorMeshes = MeshTools.FindMeshRenderersInGameObjects(gameObjects, true,
+            //     meshSettings.exterior.searchCriteria);
+            MeshRenderer[] exteriorMeshes =
+                MeshTools.FindMeshRenderersInBuildingGameObjects(gameObjects, BuildingLayer.Exterior);
             MeshTools.UpdateMeshProperties(exteriorMeshes, meshSettings.exterior);
 
-            // Update Prop meshes
-            MeshRenderer[] propMeshes = MeshTools.FindMeshRenderersInGameObjects(gameObjects, true,
-                meshSettings.props.searchCriteria);
-            MeshTools.UpdateMeshProperties(propMeshes, meshSettings.props);
+            // Update interior Prop meshes
+            // MeshRenderer[] interiorPropMeshes = MeshTools.FindMeshRenderersInGameObjects(gameObjects, true,
+            //     meshSettings.interiorProps.searchCriteria);
+            MeshRenderer[] interiorPropMeshes =
+                MeshTools.FindMeshRenderersInBuildingGameObjects(gameObjects, BuildingLayer.InteriorProps);
+            MeshTools.UpdateMeshProperties(interiorPropMeshes, meshSettings.interiorProps);
+
+            // Update exterior Prop meshes
+            // MeshRenderer[] exteriorPropMeshes = MeshTools.FindMeshRenderersInGameObjects(gameObjects, true,
+            //     meshSettings.exteriorProps.searchCriteria);
+            MeshRenderer[] exteriorPropMeshes =
+                MeshTools.FindMeshRenderersInBuildingGameObjects(gameObjects, BuildingLayer.ExteriorProps);
+            MeshTools.UpdateMeshProperties(exteriorPropMeshes, meshSettings.exteriorProps);
+
             Debug.Log($"Update Meshes - Done Processing.");
         }
 

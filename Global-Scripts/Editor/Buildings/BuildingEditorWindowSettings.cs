@@ -1,7 +1,6 @@
 using DaftAppleGames.Editor.Common.Performance;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace DaftAppleGames.Editor.Buildings
 {

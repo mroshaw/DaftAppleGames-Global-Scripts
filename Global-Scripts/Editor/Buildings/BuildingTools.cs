@@ -385,6 +385,20 @@ namespace DaftAppleGames.Editor.Buildings
             }
             
         }
+
+        public static void FindMeshLightLayers(GameObject buildingGameObject)
+        {
+            // Process all components
+            MeshRenderer[] allMeshRenderers = buildingGameObject.GetComponentsInChildren<MeshRenderer>(true);
+            foreach (MeshRenderer meshRenderer in allMeshRenderers)
+            {
+                if (meshRenderer.renderingLayerMask == 1)
+                {
+                    Debug.Log($"Parent: {meshRenderer.gameObject.transform.parent.gameObject.name}, Mesh: {meshRenderer.name}, Light Layers: {meshRenderer.renderingLayerMask}");
+                }
+            }
+        }
+
         #endregion
 
         #region INTERNAL PRIVATE METHODS

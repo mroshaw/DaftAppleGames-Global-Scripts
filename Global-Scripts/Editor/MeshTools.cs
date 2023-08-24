@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DaftAppleGames.Common.Buildings;
+using DaftAppleGames.Editor.Buildings;
 using DaftAppleGames.Editor.Common.Performance;
 using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
-#if HDRP_PIPELINE
+#if HDPipeline
 using UnityEngine.Rendering.HighDefinition;
 #endif
 namespace DaftAppleGames.Editor.Common
@@ -15,11 +18,13 @@ namespace DaftAppleGames.Editor.Common
     {
         [BoxGroup("Editor Search Settings")]
         public EditorTools.EditorSearchCriteria searchCriteria;
-#if HDRP_PIPELINE
+#if HDPipeline
         [BoxGroup("Mesh Lighting (HDRP)")]
         public LightLayerEnum lightLayers;
         [BoxGroup("Mesh Lighting (HDRP)")]
         public bool contributeGi;
+        [BoxGroup("Mesh Lighting (HDRP)")]
+        public ShadowCastingMode shadowCastingMode;
         [BoxGroup("Mesh Lighting (HDRP)")]
         public bool staticShadowCaster = true;
         [BoxGroup("Mesh Lighting (HDRP)")]
@@ -64,7 +69,7 @@ namespace DaftAppleGames.Editor.Common
             foreach (MeshRenderer meshRenderer in meshRenderers)
             {
                 Debug.Log($"Update Meshes - {meshRenderer.gameObject.name}...");
-#if HDRP_PIPELINE
+#if HDPipeline
                 // int bitmask = (int)meshRenderer.renderingLayerMask;
                 // bitmask = LightTools.CalculateBitmask(bitmask, settings.lightLayers);
                 // meshRenderer.renderingLayerMask = (uint)bitmask;
@@ -74,6 +79,7 @@ namespace DaftAppleGames.Editor.Common
                 meshRenderer.lightProbeUsage = settings.lightProbes;
                 meshRenderer.motionVectorGenerationMode = settings.motionVectors;
                 meshRenderer.allowOcclusionWhenDynamic = settings.dynamicOcclusion;
+                meshRenderer.shadowCastingMode = settings.shadowCastingMode;
 #else
                 meshRenderer.shadowCastingMode = settings.castShadows;
                 meshRenderer.receiveShadows = settings.receiveShadows;
@@ -107,9 +113,9 @@ namespace DaftAppleGames.Editor.Common
                 {
                     GameObject currentGameObject = currentTransform.gameObject;
                     // Look for GameObjects that meet the search criteria
-                    if ((searchCriteria.ParentGameObjectNames.Length == 0 || searchCriteria.ParentGameObjectNames.Any(currentGameObject.name.Contains)) &&
-                        (searchCriteria.ParentGameObjectLayers.Length == 0 || searchCriteria.ParentGameObjectLayers.Any(LayerMask.LayerToName(currentGameObject.layer).Contains)) &&
-                        (searchCriteria.ParentGameObjectLayers.Length == 0 || searchCriteria.ParentGameObjectLayers.Any(currentGameObject.tag.Contains)))
+                    if ((searchCriteria == null | searchCriteria.ParentGameObjectNames.Length == 0 || searchCriteria.ParentGameObjectNames.Any(currentGameObject.name.Contains)) &&
+                        (searchCriteria == null | searchCriteria.ParentGameObjectLayers.Length == 0 || searchCriteria.ParentGameObjectLayers.Any(LayerMask.LayerToName(currentGameObject.layer).Contains)) &&
+                        (searchCriteria == null | searchCriteria.ParentGameObjectLayers.Length == 0 || searchCriteria.ParentGameObjectLayers.Any(currentGameObject.tag.Contains)))
                     {
                         // Process all components
                         MeshRenderer[] allMeshRenderers = currentGameObject.GetComponentsInChildren<MeshRenderer>(includeInactive);
@@ -125,6 +131,43 @@ namespace DaftAppleGames.Editor.Common
                 }
             }
             return allMeshRenderersInGameObjects.ToArray();
+        }
+
+        public static MeshRenderer[] FindMeshRenderersInBuildingGameObjects(GameObject[] gameObjects, BuildingLayer buildingLayer)
+        {
+            List<GameObject> parents = new List<GameObject>();
+
+            // Process all GameObjects - assumed to be top level "buildings"
+            foreach (GameObject buildingGameObject in gameObjects)
+            {
+                Building building = buildingGameObject.GetComponent<Building>();
+                if (!building)
+                {
+                    Debug.Log("MeshTools: GameObject has no Building component");
+                    continue;
+                }
+
+
+                switch (buildingLayer)
+                {
+                    case BuildingLayer.Exterior:
+                        parents.AddRange(building.exteriors);
+                        break;
+                    case BuildingLayer.Interior:
+                        parents.AddRange(building.interiors);
+                        break;
+                    case BuildingLayer.ExteriorProps:
+                        parents.AddRange(building.exteriorProps);
+                        break;
+                    case BuildingLayer.InteriorProps:
+                        parents.AddRange(building.interiorProps);
+                        break;
+                }
+            }
+
+            EditorTools.EditorSearchCriteria searchCriteria =
+                new EditorTools.EditorSearchCriteria(Array.Empty<string>(), Array.Empty<string>(), Array.Empty<string>(), Array.Empty<string>());
+            return FindMeshRenderersInGameObjects(parents.ToArray(), true, searchCriteria);
         }
     }
 }

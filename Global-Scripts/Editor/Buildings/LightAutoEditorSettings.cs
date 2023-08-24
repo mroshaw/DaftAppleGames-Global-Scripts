@@ -11,7 +11,7 @@ namespace DaftAppleGames.Editor.AutoEditor.Buildings
         [Header("Light Settings")]
         public float range;
         public float intensity;
-#if HDRP_PIPELINE
+#if HDPipeline
         public float radius;
 #else
         public float indirectMultiplier;

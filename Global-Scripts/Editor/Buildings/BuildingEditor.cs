@@ -44,7 +44,7 @@ namespace DaftAppleGames.Editor.Buildings
             {
                 ApplyTerrain(EffectType.Flatten);
             }
-            #endif
+  #endif
         }
 
         /// <summary>

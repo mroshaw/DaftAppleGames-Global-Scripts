@@ -9,7 +9,7 @@ namespace DaftAppleGames.Editor.Common.LightTools
 {
     public class BetterBakeryEditorWindow : OdinEditorWindow
     {
-        [MenuItem("Window/LightTools/Better Bakery Editor")]
+        [MenuItem("Window/Lighting/Better Bakery Editor")]
         public static void ShowWindow()
         {
             GetWindow(typeof(BetterBakeryEditorWindow));

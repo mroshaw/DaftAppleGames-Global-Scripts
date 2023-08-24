@@ -3,7 +3,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-#if HDRP_PIPELINE
+#if HDPipeline
 using UnityEngine.Rendering.HighDefinition;
 #endif
 
@@ -48,7 +48,7 @@ namespace DaftAppleGames.Editor.Common.Performance
         /// <param name="settings"></param>
         private static void ConfigureSpotLight(Light light, LightingEditorSettings settings)
         {
-#if HDRP_PIPELINE
+#if HDPipeline
 #else
             light.intensity = settings.spotLightIntensity;
             light.cullingMask = settings.spotLightCullingMask;
@@ -63,7 +63,7 @@ namespace DaftAppleGames.Editor.Common.Performance
         private static void ConfigurePointLight(Light light, LightingEditorSettings settings)
         {
             Debug.Log($"LightTools: ConfigurePointLight: Configuring {light.gameObject.name}...");
-#if HDRP_PIPELINE
+#if HDPipeline
             LensFlare lensFlare = light.GetComponent<LensFlare>();
             if (lensFlare)
             {
@@ -75,66 +75,29 @@ namespace DaftAppleGames.Editor.Common.Performance
                 lightData = light.AddComponent<HDAdditionalLightData>();
             }
 
-            lightData.intensity = settings.pointLightIntensity;
-            lightData.range = settings.pointLightRange;
-            lightData.shapeRadius = settings.pointLightRadius;
-            light.renderingLayerMask = (int)settings.pointLightLightLayers;
-            lightData.lightlayersMask = settings.pointLightLightLayers;
-            lightData.EnableColorTemperature(true);
-            lightData.surfaceTint = settings.pointLightsurfaceTint;
-            light.colorTemperature = settings.pointLightcolorTemperature;
+            lightData.shapeRadius = settings.pointLightSettings.Radius;
+            // lightData.SetColor(settings.pointLightSettings.Temperature);
+            lightData.intensity = settings.pointLightSettings.Intensity;
+            lightData.range = settings.pointLightSettings.Range;
+
+            lightData.affectsVolumetric = settings.pointLightSettings.enableVolumetrics;
+            lightData.EnableShadows(settings.pointLightSettings.enableShadowMap);
+            lightData.shadowUpdateMode = settings.pointLightSettings.shadowUpdateMode;
+            // lightData.shadowResolution. = settings.pointLightSettings.shadowResolution;
+
+            lightData.lightlayersMask = settings.pointLightSettings.lightLayers;
 
 #else
-            light.lightmapBakeType = settings.pointLightMode;
-            light.range = settings.pointLightRange;
-            light.intensity = settings.pointLightIntensity;
-            light.bounceIntensity = settings.pointLightIndirectMultiplier;
-            light.shadows = settings.pointLightShadowType;
-            light.shadowRadius = settings.pointLightBakedShadowRadius;
-            light.renderMode = settings.pointLightRenderMode;
-            light.color = settings.pointLightColor;
-            light.cullingMask = settings.pointLightCullingMask;
-            light.shadowResolution = settings.pointLightShadowResolution;
 #endif
-            #if BAKERY
-            ConfigureBakeryPointLight(light, settings);
-            #endif
             Debug.Log($"LightTools: ConfigurePointLight: Configuring {light.gameObject.name} done.");
         }
 
         private static void ConfigureAreaLight(Light light, LightingEditorSettings settings)
         {
-#if HDRP_PIPELINE
-            HDAdditionalLightData lightData = light.GetComponent<HDAdditionalLightData>();
-            if (!lightData)
-            {
-                lightData = light.AddComponent<HDAdditionalLightData>();
-            }
-            lightData.intensity = settings.spotLightIntensity;
-            lightData.range = settings.spotLightRange;
-            lightData.shapeRadius = settings.spotLightRadius;
-            // int bitmask = (int)lightData.lightlayersMask;
-            // bitmask = CalculateBitmask(bitmask, settings.lightLayers);
-            // light.renderingLayerMask = bitmask;
-            light.renderingLayerMask = (int)settings.spotLightLightLayers;
-#else
-            light.intensity = settings.areaLightIntensity;
-            light.cullingMask = settings.areaLightcullingMask;
-#endif
         }
 
         private static void ConfigureDirectionalLight(Light light, LightingEditorSettings settings)
         {
-#if HDRP_PIPELINE
-            HDAdditionalLightData lightData = light.GetComponent<HDAdditionalLightData>();
-            if (!lightData)
-            {
-                lightData = light.AddComponent<HDAdditionalLightData>();
-            }
-#else
-            light.intensity = settings.directionalLightIntensity;
-            light.cullingMask = settings.directionalLightcullingMask;
-#endif
         }
 
         /// <summary>
@@ -167,39 +130,10 @@ namespace DaftAppleGames.Editor.Common.Performance
                 }
             }
         }
-
-        #if BAKERY
-        private static void ConfigureBakeryPointLight(Light light, LightingEditorSettings settings)
-        {
-            BakeryPointLight bakeryPointLight = light.GetComponent<BakeryPointLight>();
-            if (!bakeryPointLight)
-            {
-                bakeryPointLight = light.AddComponent<BakeryPointLight>();
-            }
-
-            bakeryPointLight.intensity = settings.pointLightIntensity;
-            bakeryPointLight.cutoff = settings.pointLightRange;
-
-        }
-        #endif
-        private static void MatchBakeryLight()
-        {
- 
-        }
         
-        #if BAKERY
-        private static void ConfigureBakeryDirectLight(Light light, LightingEditorSettings settings)
-        {
-            BakeryDirectLight bakeryDirectLight = light.GetComponent<BakeryDirectLight>();
-            if (!bakeryDirectLight)
-            {
-                bakeryDirectLight = light.AddComponent<BakeryDirectLight>();
-            }
-        }
-        #endif
         public static int CalculateBitmask(int currentBitmask, Array enumValues)
         {
-#if HDRP_PIPELINE
+#if HDPipeline
             //int originalBitVal = currentBitmask;
             LightLayerEnum targetLayer = LightLayerEnum.LightLayerDefault;
             foreach (LightLayerEnum current in enumValues)
@@ -229,7 +163,7 @@ namespace DaftAppleGames.Editor.Common.Performance
 
         public static int SetBitmask(int bitmask, int bitVal, bool set)
         {
-#if HDRP_PIPELINE
+#if HDPipeline
             if (set)
                 // or "|" will add the value, the 1 at the right position
                 bitmask |= bitVal;

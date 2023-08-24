@@ -10,13 +10,13 @@ namespace DaftAppleGames.Common.GameControllers
     [CreateAssetMenu(fileName = "AdditiveSceneLoaderSettings", menuName = "GameController/Additive Scene Loader Settings", order = 1)]
     public class AdditiveSceneLoaderSettings : ScriptableObject
     {
-        [FoldoutGroup("Scene Paths")]
+        [BoxGroup("Scene Paths")]
         public string controlScenePath;
-        [FoldoutGroup("Scene Paths")]
+        [BoxGroup("Scene Paths")]
         public string areaScenePath;
-        [FoldoutGroup("Scene Paths")]
+        [BoxGroup("Scene Paths")]
         public string terrainScenePath;
-        [FoldoutGroup("Additive Scenes")]
+        [BoxGroup("Additive Scenes")]
         [TableList]
         public List<AdditiveScene> additiveScenes;
         [TableList]

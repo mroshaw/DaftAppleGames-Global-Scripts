@@ -31,13 +31,12 @@ namespace DaftAppleGames.Common.Audio
                 return;
             }
 
-            _isTriggered = true;
-
             if (TriggerEnterEvent.GetPersistentEventCount() == 0)
             {
                 return;
             }
             TriggerEnterEvent.Invoke();
+            _isTriggered = true;
             if (destroyOnTrigger)
             {
                 StartCoroutine(DestroyAfterDelayAsync());
@@ -60,6 +59,7 @@ namespace DaftAppleGames.Common.Audio
                 return;
             }
             TriggerExitEvent.Invoke();
+            _isTriggered = true;
             if (destroyOnTrigger)
             {
                 StartCoroutine(DestroyAfterDelayAsync());

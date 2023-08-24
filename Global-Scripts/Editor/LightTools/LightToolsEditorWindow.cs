@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using DaftAppleGames.Editor.Common.Performance;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;

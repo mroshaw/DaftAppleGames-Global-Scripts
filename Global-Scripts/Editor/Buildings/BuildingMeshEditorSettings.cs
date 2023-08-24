@@ -15,6 +15,8 @@ namespace DaftAppleGames.Editor.Buildings
         [BoxGroup("Building Mesh Settings")]
         public MeshSettings interior;
         [BoxGroup("Building Mesh Settings")]
-        public MeshSettings props;
+        public MeshSettings interiorProps;
+        [BoxGroup("Building Mesh Settings")]
+        public MeshSettings exteriorProps;
     }
 }
