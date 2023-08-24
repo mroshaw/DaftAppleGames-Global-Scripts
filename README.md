@@ -1,2 +1,2 @@
-# DaftAppleGames-Global-Resources
- Repositoy of shared code, private assets, and common resources for use in all DaftAppleGames projects
+# DaftAppleGames-Global-Scripts
+Common game and editor scripts for use across all Daft Apple Games projects.
